@@ -28,10 +28,6 @@ func main() {
 		log.Printf("Warning: Failed to load %s: %v", envPath, err)
 	}
 
-	cwd, _ := os.Getwd()
-	log.Println("Current working dir:", cwd)
-	log.Println("Trying to load env from:", envPath)
-
 	port := os.Getenv("APP_PORT")
 	if port == "" {
 		port = "3000"
