@@ -18,7 +18,7 @@ import (
 )
 
 func main() {
-	envPath := filepath.Join("..", "internal", "config", ".env")
+	envPath := filepath.Join("..", "..", ".env")
 
 	if p := os.Getenv("CONFIG_PATH"); p != "" {
 		envPath = p

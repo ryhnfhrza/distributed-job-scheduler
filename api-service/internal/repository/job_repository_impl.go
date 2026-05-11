@@ -37,7 +37,7 @@ func (repository *JobRepositoryImpl) Create(ctx context.Context, job domain.Job)
 }
 
 func (repository *JobRepositoryImpl) Update(ctx context.Context, job domain.Job) (domain.Job, error) {
-	query := "update jobs set name = ?, run_at = ?, updated_at = NOW() where id = ? and status = 'pending'"
+	query := "update jobs set name = ?, run_at = ?, updated_at = UTC_TIMESTAMP() where id = ? and status = 'pending'"
 	result, err := repository.Db.ExecContext(ctx, query, job.Name, job.RunAt, job.Id)
 	if err != nil {
 		return job, fmt.Errorf("failed to update jobs (id=%d): %w", job.Id, err)

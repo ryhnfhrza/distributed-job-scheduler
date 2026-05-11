@@ -53,9 +53,8 @@ func (service *workerServiceImpl) Process(ctx context.Context) error {
 			job.Status = "failed"
 		} else {
 			job.Status = "pending"
-			job.Status = "pending"
 
-			nextRun := time.Now().Add(
+			nextRun := time.Now().UTC().Add(
 				time.Minute * time.Duration(job.RetryCount),
 			)
 

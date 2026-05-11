@@ -59,10 +59,15 @@ func (service *jobServiceImpl) Create(ctx context.Context, createRequest web.Job
 		panic("unsupported job type")
 	}
 
+	userRunAt := createRequest.RunAt.UTC()
+	if userRunAt.Before(time.Now().UTC()) {
+		panic(exception.NewBadRequest("run_at cannot be in the past"))
+	}
+
 	job := domain.Job{
 		Name:    createRequest.Name,
 		Type:    createRequest.Type,
-		RunAt:   createRequest.RunAt,
+		RunAt:   &userRunAt,
 		Payload: payloadBytes,
 	}
 
@@ -91,7 +96,8 @@ func (service *jobServiceImpl) Update(ctx context.Context, updateRequest web.Job
 
 	if updateRequest.RunAt != nil {
 		if !updateRequest.RunAt.IsZero() {
-			job.RunAt = updateRequest.RunAt
+			utcRunAt := updateRequest.RunAt.UTC()
+			job.RunAt = &utcRunAt
 		}
 	}
 

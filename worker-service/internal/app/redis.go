@@ -11,7 +11,7 @@ import (
 func NewRedis() *redis.Client {
 	redisHost := os.Getenv("REDIS_HOST")
 	redisPort := os.Getenv("REDIS_PORT")
-	redisPass := os.Getenv("REDIS_PASS")
+	redisPass := os.Getenv("REDIS_PASSWORD")
 	// redisUser := os.Getenv("REDIS_USER") for local testing only
 
 	client := redis.NewClient(&redis.Options{

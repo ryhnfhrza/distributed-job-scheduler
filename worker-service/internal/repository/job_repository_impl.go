@@ -46,9 +46,9 @@ func (repository *jobRepositoryImpl) FindById(ctx context.Context, id int64) (do
 }
 
 func (repository *jobRepositoryImpl) UpdateExecutionResult(ctx context.Context, job domain.Job) error {
-	query := " UPDATE jobs SET status = ?, retry_count = ?, last_error = ?, updated_at = NOW() WHERE id = ? AND status = 'queued' "
+	query := " UPDATE jobs SET status = ?, retry_count = ?, last_error = ?, run_at=?,updated_at = UTC_TIMESTAMP() WHERE id = ? AND status = 'queued' "
 
-	result, err := repository.Db.ExecContext(ctx, query, job.Status, job.RetryCount, job.LastError, job.Id)
+	result, err := repository.Db.ExecContext(ctx, query, job.Status, job.RetryCount, job.LastError, job.RunAt, job.Id)
 	if err != nil {
 		return err
 	}

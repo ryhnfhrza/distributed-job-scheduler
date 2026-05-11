@@ -26,7 +26,7 @@ func (repository *JobRepositoryImpl) FetchAndMarkQueued(ctx context.Context, lim
 
 	rows, err := tx.QueryContext(ctx, `
 		SELECT id FROM jobs
-		WHERE run_at <= NOW() AND status = 'pending'
+		WHERE run_at <= UTC_TIMESTAMP() AND status = 'pending'
 		ORDER BY run_at ASC
 		LIMIT ?
 	`, limit)
@@ -53,7 +53,7 @@ func (repository *JobRepositoryImpl) FetchAndMarkQueued(ctx context.Context, lim
 		return []domain.Job{}, nil
 	}
 
-	query := "UPDATE jobs SET status = 'queued',updated_at = NOW() WHERE id IN (?" + strings.Repeat(",?", len(ids)-1) + ")"
+	query := "UPDATE jobs SET status = 'queued',updated_at = UTC_TIMESTAMP() WHERE id IN (?" + strings.Repeat(",?", len(ids)-1) + ")"
 
 	args := make([]interface{}, len(ids))
 	for i, v := range ids {

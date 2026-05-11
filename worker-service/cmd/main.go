@@ -17,6 +17,7 @@ import (
 
 func main() {
 	envPath := filepath.Join("..", "internal", "config", ".env")
+	envPathGeneral := filepath.Join("..", "..", ".env")
 
 	if p := os.Getenv("CONFIG_PATH"); p != "" {
 		envPath = p
@@ -24,6 +25,9 @@ func main() {
 
 	if err := godotenv.Load(envPath); err != nil {
 		log.Printf("warning: failed to load %s: %v", envPath, err)
+	}
+	if err := godotenv.Load(envPathGeneral); err != nil {
+		log.Printf("warning: failed to load %s: %v", envPathGeneral, err)
 	}
 
 	db := app.NewDB()
